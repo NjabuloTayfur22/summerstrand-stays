@@ -436,3 +436,61 @@ html.no-gsap .statement-text .w { opacity: 1; }
 .foot-base .credit span { color: var(--muted); font-size: .82rem; }
 .foot-base .credit b { padding: .35rem .9rem; border-radius: 999px; background: linear-gradient(120deg, var(--sun-2), var(--sun)); -webkit-background-clip: border-box; background-clip: border-box; color: #1a0800; font-weight: 800; font-size: .85rem; letter-spacing: .02em; }
 .foot-base { padding-right: 90px; }
+
+/* =========================================================
+   Fun layer
+   ========================================================= */
+.fw { display: inline-block; white-space: nowrap; }
+.fc { display: inline-block; will-change: transform; }
+h2 em .fc, .grad .fc { background: inherit; -webkit-background-clip: text; background-clip: text; }
+h2 em { display: inline-block; }
+.hero h1 .char { cursor: default; transition: color .3s; }
+
+/* shine follows the mouse on cards */
+.card, .mosaic-col button, .scene-thumbs button, .plan { position: relative; transform-style: preserve-3d; }
+.shine { position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .4s; background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .28), transparent 45%); mix-blend-mode: overlay; }
+.card:hover .shine, .mosaic-col button:hover .shine, .scene-thumbs button:hover .shine, .plan:hover .shine { opacity: 1; }
+.plan .shine { background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 181, 71, .16), transparent 50%); mix-blend-mode: normal; }
+
+/* floating suns */
+.statement { position: relative; overflow: hidden; }
+.statement .wrap { z-index: 1; }
+.floater { position: absolute; z-index: 0; color: var(--sun-2); opacity: .22; pointer-events: none; }
+.floater svg { width: 100%; height: 100%; color: inherit; }
+
+/* waves */
+.waves { position: absolute; left: 0; right: 0; height: 90px; z-index: 0; pointer-events: none; overflow: hidden; }
+.waves:not(.flip) { bottom: -1px; }
+.waves.flip { top: -1px; transform: scaleY(-1); }
+.waves svg { position: absolute; left: 0; bottom: 0; width: 200%; height: 100%; }
+.wv { fill: var(--bg); }
+.wv.w1 { fill: rgba(73, 197, 209, .35); }
+.wv.w2 { fill: rgba(255, 181, 71, .25); }
+.wv.w3 { fill: var(--bg); }
+.call-band-inner { z-index: 1; }
+
+/* sunset footer */
+.footer { position: relative; }
+.sunset { position: relative; height: 0; }
+.sunset-sun { position: absolute; left: 50%; top: 40px; width: min(46vw, 560px); aspect-ratio: 1; margin-left: calc(min(46vw, 560px) / -2); border-radius: 50%; background: radial-gradient(circle at 50% 40%, #ffd27a, var(--sun) 55%, var(--coral) 80%, transparent 81%); filter: blur(2px); opacity: .55; box-shadow: 0 0 160px 40px rgba(255, 107, 44, .35); pointer-events: none; }
+.foot-giant { position: relative; z-index: 1; }
+
+/* confetti + cursor trail */
+.confetti { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 500; pointer-events: none; }
+.trail { position: fixed; z-index: 998; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; pointer-events: none; }
+
+/* little bounces */
+.perks span { transition: transform .4s var(--ease); display: inline-block; }
+.perks span:hover { transform: rotate(-4deg) scale(1.08); }
+.how li:hover b { animation: wiggle .6s ease; }
+@keyframes wiggle { 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
+.faq summary:hover::after { transform: rotate(90deg); }
+.chips li { transition: transform .3s var(--ease), background .3s; }
+.chips li:hover { transform: translateY(-3px) rotate(-2deg); background: rgba(255, 181, 71, .2); }
+h2 em .fc, h2 .grad .fc { background: linear-gradient(100deg, var(--sun-2), var(--sun) 60%, var(--coral)); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .04em; }
+/* sunset tuning: sun sinks behind dark silhouette letters */
+.sunset-sun { width: min(30vw, 400px); margin-left: calc(min(30vw, 400px) / -2); top: 20px; opacity: .95; filter: none; box-shadow: 0 0 140px 30px rgba(255, 107, 44, .4); }
+.foot-giant { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--bg); -webkit-text-stroke: 1.5px rgba(255, 255, 255, .28); }
+.foot-giant .fc { color: var(--bg); }
+.foot-base { position: relative; z-index: 2; background: var(--bg); margin-top: -2px; padding-bottom: 6px; }
+@media (max-width: 700px) { .foot-base { padding-right: 0; padding-bottom: 96px; } .foot-base .credit, .foot-base .credit b { white-space: nowrap; } }
