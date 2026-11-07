@@ -494,3 +494,6 @@ h2 em .fc, h2 .grad .fc { background: linear-gradient(100deg, var(--sun-2), var(
 .foot-giant .fc { color: var(--bg); }
 .foot-base { position: relative; z-index: 2; background: var(--bg); margin-top: -2px; padding-bottom: 6px; }
 @media (max-width: 700px) { .foot-base { padding-right: 0; padding-bottom: 96px; } .foot-base .credit, .foot-base .credit b { white-space: nowrap; } }
+/* no ghost letters: colour lives on each moving letter, not the word behind it */
+.hero-stays, h2 em:has(.fc) { background: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: transparent; }
+.hero-stays .char { background: linear-gradient(100deg, var(--sun-2), var(--sun) 60%, var(--coral)); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .03em; }
