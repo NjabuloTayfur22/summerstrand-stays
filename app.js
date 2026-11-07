@@ -487,6 +487,7 @@
     $("#s-stay").textContent = `${q} ${p === "weekly" ? "week" : "month"}${q > 1 ? "s" : ""} × ${rand(C.prices[p])}`;
     $("#s-out").textContent = dateIn.value ? fmt(addUnits(parse(dateIn.value), p, q)) : "—";
     $("#s-total").textContent = rand(C.prices[p] * q);
+    $("#s-deposit").textContent = rand(C.prices[p] * q / 2);
     msg.textContent = "";
   }
   form.addEventListener("change", update);
@@ -502,13 +503,16 @@
       `📅 Check-in: ${fmt(parse(dateIn.value))}`,
       `⏳ ${q} ${p === "weekly" ? "week" : "month"}${q > 1 ? "s" : ""} (${p} plan)`,
       `👤 ${$("#f-guests").value}`,
-      `💰 Total: ${rand(C.prices[p] * q)}`, ``,
+      `💰 Total: ${rand(C.prices[p] * q)}`,
+      `🔐 50% deposit: ${rand(C.prices[p] * q / 2)}`,
+      `✅ I agree to the booking terms & house rules`, ``,
       `Name: ${$("#f-name").value.trim()}`,
     ].join("\n");
   }
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!$("#f-name").value.trim()) { msg.textContent = "Please add your name."; $("#f-name").focus(); return; }
+    if (!$("#f-agree").checked) { msg.textContent = "Please tick the box to agree to the booking terms."; $("#f-agree").focus(); return; }
     if (!dateIn.value || dateIn.value < dateIn.min || dateIn.value > dateIn.max) {
       msg.textContent = `Please pick a check-in date between ${fmt(parse(dateIn.min))} and ${fmt(seasonEnd)}.`;
       return;

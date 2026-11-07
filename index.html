@@ -37,6 +37,7 @@
     <a href="#showcase">Homes</a>
     <a href="#pricing">Pricing</a>
     <a href="#book">Book</a>
+    <a href="#terms">Terms</a>
     <a href="#faq">FAQ</a>
   </nav>
   <a href="#book" class="btn btn-sun btn-sm js-call"><span class="ring-ico">📞</span><span class="call-label js-phone-text">Call to book</span></a>
@@ -178,8 +179,8 @@
         <h2 class="reveal-up">Reserve your room <em>for summer.</em></h2>
         <ol class="how">
           <li><b>01</b><div><strong>Pick your stay</strong><span>House, weekly or monthly, check-in date.</span></div></li>
-          <li><b>02</b><div><strong>Call or WhatsApp us</strong><span>We confirm your room on the spot.</span></div></li>
-          <li><b>03</b><div><strong>Move in</strong><span>Get your room, check-in time and house rules.</span></div></li>
+          <li><b>02</b><div><strong>Call us & pay 50% deposit</strong><span>Your room is secured once the deposit is in.</span></div></li>
+          <li><b>03</b><div><strong>Pay the balance & move in</strong><span>Settle the rest by check-in day and get your keys.</span></div></li>
         </ol>
         <div class="perks">
           <span>🔒 Secure & gated</span><span>🍳 Full kitchens</span><span>🛁 Baths & showers</span><span>📚 Desks in rooms</span>
@@ -228,7 +229,9 @@
             <div><span>Stay</span><b id="s-stay">—</b></div>
             <div><span>Check-out</span><b id="s-out">—</b></div>
             <div class="total"><span>Estimated total</span><b id="s-total">R3,500</b></div>
+            <div class="deposit-row"><span>50% deposit to secure</span><b id="s-deposit">R1,750</b></div>
           </div>
+          <label class="agree-box"><input type="checkbox" id="f-agree"><span>I agree to the <a href="#terms">booking terms & house rules</a> (50% deposit, damage & theft fines).</span></label>
           <button class="btn btn-wa btn-block" type="submit">
             <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor" aria-hidden="true"><use href="#wa-icon"/></svg>
             Send booking on WhatsApp
@@ -239,10 +242,43 @@
         <div class="booked" id="booked" hidden>
           <div class="booked-check">✓</div>
           <h3>Booking sent!</h3>
-          <p>Now give us a quick call to lock in your room.</p>
+          <p>Now give us a quick call. We'll send payment details for your <b>50% deposit</b> to lock in your room.</p>
           <a href="#" class="btn btn-sun btn-block js-call"><span class="ring-ico">📞</span> Call <span class="js-phone-text"></span></a>
           <button type="button" class="btn btn-line btn-block" id="book-again">Make another booking</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TERMS -->
+  <section class="section terms" id="terms">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Booking terms</span>
+        <h2 class="reveal-up">Simple, <em>fair rules.</em></h2>
+        <p class="reveal-up">Please read these before you book. They keep things fair for every guest.</p>
+      </div>
+      <div class="terms-grid">
+        <article class="term term-hot reveal-up">
+          <span class="term-big">50%</span>
+          <h3>Deposit secures your room</h3>
+          <p>Pay a <b>50% deposit</b> of your total stay to reserve your spot. Rooms are not held without it. The balance is due on or before check-in day.</p>
+          <div class="term-deps"><div><small>Weekly</small><b>R500</b></div><div><small>Monthly</small><b>R1,750</b></div></div>
+        </article>
+        <article class="term reveal-up">
+          <span class="term-ico">🔍</span>
+          <h3>Check everything on arrival</h3>
+          <p>Walk through your room and the shared spaces when you check in. Report anything broken, damaged or missing <b>within 24 hours</b> with photos on WhatsApp. Otherwise we take it that everything was fine.</p>
+        </article>
+        <article class="term reveal-up">
+          <span class="term-ico">⚠️</span>
+          <h3>Damage & theft</h3>
+          <p>If you <b>break or damage</b> anything, or anything is <b>stolen or goes missing</b> while in your care, you pay a fine to cover repair or replacement. Fines are paid before you leave.</p>
+        </article>
+      </div>
+      <div class="terms-cta reveal-up">
+        <a class="btn btn-sun" href="docs/Summerstrand-Stays-Booking-Terms-and-House-Rules.pdf" target="_blank" rel="noopener" data-cursor="Open">📄 Full terms & house rules (PDF)</a>
+        <span>Includes the arrival checklist and guest agreement.</span>
       </div>
     </div>
   </section>
@@ -258,7 +294,8 @@
         <details><summary>When can I stay?</summary><p>We're taking bookings for November and December 2026 and January 2027. Pick any check-in date in that window.</p></details>
         <details><summary>How do I book?</summary><p>Call us on <b class="js-phone-text"></b>. You can also fill in the booking form and send it on WhatsApp, then give us a call to confirm.</p></details>
         <details><summary>What's included?</summary><p>Your own furnished room plus shared use of the kitchen, lounge and bathrooms, and secure parking. Ask us about specific room types.</p></details>
-        <details><summary>How do I pay?</summary><p>Once we confirm your room on the phone, we send you our payment details. No online fees.</p></details>
+        <details><summary>How do I pay?</summary><p>Pay a 50% deposit to secure your room (R500 per week or R1,750 per month). We send you the payment details when you call. The balance is due on or before check-in day.</p></details>
+        <details><summary>What if something breaks?</summary><p>Check your room and shared spaces when you arrive and report anything broken or missing within 24 hours. Damage or theft during your stay is charged as a fine to cover repair or replacement. <a href="#terms">See the full terms</a>.</p></details>
         <details><summary>Can I book more than one week or month?</summary><p>Yes. Use the + button on the form to add weeks or months. The total updates as you go.</p></details>
         <details><summary>Can I see the place first?</summary><p>Browse the photos of every room above, or call us to arrange a viewing.</p></details>
       </div>
