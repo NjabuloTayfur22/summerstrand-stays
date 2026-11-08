@@ -42,7 +42,7 @@
       bg: [2, 3, 4, 5, 10, 14, 1],
       cover: 1,
       slides: [6, 7, 8, 9, 11, 12, 13],
-      rooms: 3,
+      rooms: 6,
     },
     {
       id: "bradley-6",
@@ -186,7 +186,7 @@
         <a href="${tel}" class="btn btn-sun js-call"><span class="ring-ico">📞</span> Call to book</a>
         <button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${h.photos.length} photos</button>
       </div>`;
-    roomGrid.dataset.count = h.rooms;
+    roomGrid.dataset.rooms = h.rooms;
     if (animate && hasGsap) {
       G.from(roomGrid.children, { y: 40, opacity: 0, scale: 0.96, duration: 0.6, ease: "back.out(1.6)", stagger: 0.05, clearProps: "all" });
       ST.refresh();
