@@ -520,3 +520,40 @@ h2 em .fc, h2 .grad .fc { background: linear-gradient(100deg, var(--sun-2), var(
 .term-deps b { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: #fff; }
 .terms-cta { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 2rem; }
 .terms-cta span { color: var(--muted); font-size: .92rem; }
+
+/* rooms */
+.rooms { background: radial-gradient(70% 50% at 100% 0%, rgba(255, 107, 44, .14), transparent 60%), radial-gradient(60% 50% at 0% 100%, rgba(73, 197, 209, .1), transparent 60%), var(--bg); }
+.room-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.room-tabs button { display: inline-flex; flex-direction: column; align-items: flex-start; gap: .15rem; padding: .85rem 1.3rem; border-radius: 20px; border: 1px solid var(--line-2); background: rgba(255, 255, 255, .05); color: #fff; font: inherit; font-weight: 600; cursor: pointer; transition: background .3s, transform .3s var(--ease), color .3s; }
+.room-tabs button:hover { transform: translateY(-3px); background: rgba(255, 255, 255, .1); }
+.room-tabs button small { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.room-tabs button.on { background: linear-gradient(100deg, var(--sun-2), var(--sun)); color: #160b04; border-color: transparent; box-shadow: 0 14px 40px -12px rgba(255, 107, 44, .7); }
+.room-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 280px; gap: 14px; grid-auto-flow: dense; }
+.room-card { position: relative; border: 0; padding: 0; border-radius: 24px; overflow: hidden; cursor: zoom-in; background: var(--bg-3); box-shadow: 0 20px 50px -25px rgba(0, 0, 0, .8); }
+.room-card:first-child { grid-column: span 2; grid-row: span 2; }
+.room-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.room-card:hover img { transform: scale(1.06); }
+.room-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, .55), transparent 40%); pointer-events: none; }
+.room-card span { position: absolute; z-index: 1; left: 16px; bottom: 16px; padding: .45rem .9rem; border-radius: 999px; background: rgba(0, 0, 0, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); font-size: .8rem; font-weight: 700; color: #fff; }
+.room-cta { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: .7rem; padding: 1.8rem; border-radius: 24px; background: radial-gradient(120% 100% at 100% 0%, rgba(255, 107, 44, .3), transparent 60%), var(--bg-2); border: 1px solid rgba(255, 181, 71, .45); }
+.room-cta small { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--sun-2); }
+.room-cta b { font-family: var(--serif); font-weight: 400; font-size: 2rem; line-height: 1; }
+.room-cta p { color: var(--muted); font-size: .95rem; }
+.room-cta .btn { width: 100%; justify-content: center; }
+.room-grid[data-count="3"] .room-cta, .room-grid[data-count="10"] .room-cta { flex-direction: row; flex-wrap: wrap; align-items: center; }
+.room-grid[data-count="3"] .room-cta .btn { width: auto; }
+.room-grid[data-count="3"] .room-cta { grid-column: span 3; }
+.room-grid[data-count="10"] .room-cta { grid-column: span 2; flex-direction: row; flex-wrap: wrap; align-items: center; }
+.room-grid[data-count="10"] .room-cta .btn { width: auto; }
+@media (max-width: 760px) {
+  .room-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 170px; gap: 10px; }
+  .room-card:first-child { grid-column: span 2; grid-row: span 2; }
+  .room-grid .room-cta, .room-grid[data-count] .room-cta { grid-column: span 2; flex-direction: column; align-items: flex-start; }
+  .room-tabs button { flex: 1 1 calc(50% - 10px); }
+}
+.scene-rooms-label { display: inline-block; margin-top: 1.4rem; font-size: .75rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--sun-2); text-decoration: none; }
+.scene-rooms-label + .scene-thumbs { margin-top: .7rem; }
+.m-gallery { columns: auto; }
+.m-grid { columns: 3 240px; column-gap: 12px; margin-bottom: 1.6rem; }
+.m-sec { display: flex; align-items: baseline; gap: .8rem; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; margin: .4rem 0 1rem; }
+.m-sec small { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }

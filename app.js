@@ -20,6 +20,7 @@
       bg: [1, 2, 3, 4, 7, 9, 11, 14],
       slides: [1, 2, 3, 5, 7, 9, 11, 4],
       cover: 1,
+      rooms: 2,
     },
     {
       id: "admiralty-31",
@@ -30,6 +31,7 @@
       bg: [4, 2, 3, 5, 8, 13, 14],
       cover: 4,
       slides: [1, 6, 7, 9, 10, 11, 12],
+      rooms: 10,
     },
     {
       id: "tilbury-4",
@@ -40,6 +42,7 @@
       bg: [2, 3, 4, 5, 10, 14, 1],
       cover: 1,
       slides: [6, 7, 8, 9, 11, 12, 13],
+      rooms: 3,
     },
     {
       id: "bradley-6",
@@ -50,6 +53,7 @@
       bg: [2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 14],
       cover: 2,
       slides: [2, 3, 11, 12, 13, 4, 8],
+      rooms: 5,
     },
   ];
   const HERO = [["admiralty-23", 1], ["tilbury-4", 1], ["bradley-6", 1], ["admiralty-31", 13]];
@@ -60,6 +64,12 @@
   const rand = (n) => "R" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const pad = (n) => String(n).padStart(2, "0");
   const tel = C.phone ? `tel:${C.phone.replace(/\s/g, "").replace(/^0/, "+27")}` : "#book";
+  // Every home's photo list: room photos first (r01, r02...), then the house photos (1..14).
+  HOMES.forEach((h) => {
+    h.roomKeys = Array.from({ length: h.rooms }, (_, i) => "r" + pad(i + 1));
+    h.photos = [...h.roomKeys, ...Array.from({ length: PHOTOS }, (_, i) => i + 1)];
+  });
+  const photoIndex = (h, key) => h.photos.indexOf(key);
   const waUrl = (text) => `https://wa.me/${C.whatsapp}?text=${encodeURIComponent(text)}`;
 
   /* ---------- logo ---------- */
@@ -112,7 +122,7 @@
     <a class="card" href="#scene-${h.id}" data-cursor="Explore">
       <div class="card-img"><img src="${img(h.id, h.cover)}" alt="${h.name}, ${h.street}" loading="lazy"></div>
       <span class="card-num">${pad(i + 1)} / ${pad(HOMES.length)}</span>
-      <span class="card-tag">📷 ${PHOTOS} photos</span>
+      <span class="card-tag">🛏 Rooms inside · 📷 ${h.photos.length} photos</span>
       <div class="card-body">
         <div><h3>${h.name}</h3><small>${h.street}, Summerstrand</small></div>
         <span class="card-go">→</span>
@@ -122,7 +132,7 @@
   /* ---------- scenes ---------- */
   $("#scenes").innerHTML = HOMES.map((h, i) => {
     const media = `<div class="bg-slides" data-frame-slides></div>`;
-    const tours = `<button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${PHOTOS} photos</button>`;
+    const tours = `<button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${h.photos.length} photos</button>`;
     return `
     <section class="scene" id="scene-${h.id}">
       <div class="scene-sticky">
@@ -135,9 +145,10 @@
             <div class="addr">📍 ${h.street}, Summerstrand</div>
             <p class="blurb">${h.blurb}</p>
             <ul class="chips">${h.chips.map((c) => `<li>${c}</li>`).join("")}</ul>
+            <a class="scene-rooms-label" href="#rooms" data-room-jump="${h.id}">🛏 See the rooms →</a>
             <div class="scene-thumbs">
-              ${[2, 3, 4].map((n) => `<button data-gallery="${h.id}" data-start="${n - 1}" data-cursor="View" aria-label="Open photo"><img src="${img(h.id, n, 1)}" alt="" loading="lazy"></button>`).join("")}
-              <button class="more" data-gallery="${h.id}" data-cursor="All" aria-label="See all photos">+${PHOTOS - 3}</button>
+              ${h.roomKeys.slice(0, 3).map((k, j) => `<button data-gallery="${h.id}" data-start="${j}" data-cursor="Room" aria-label="Open room photo"><img src="${img(h.id, k, 1)}" alt="Room at ${h.street}" loading="lazy"></button>`).join("")}
+              <button class="more" data-gallery="${h.id}" data-cursor="All" aria-label="See all photos">+${h.photos.length - Math.min(3, h.rooms)}</button>
             </div>
             <div class="scene-price"><span><b>${rand(C.prices.weekly)}</b> /week</span><span><b>${rand(C.prices.monthly)}</b> /month</span></div>
             <div class="scene-actions">
@@ -150,7 +161,7 @@
             <div class="frame-glow"></div>
             <div class="frame">
               ${media}
-              <span class="frame-tag"><i></i>Photo tour</span>
+              <span class="frame-tag"><i></i>Room tour</span>
               <span class="frame-bar"><span></span></span>
             </div>
           </div>
@@ -158,15 +169,44 @@
       </div>
     </section>`;
   }).join("");
+  /* ---------- rooms section ---------- */
+  const roomTabs = $("#room-tabs"), roomGrid = $("#room-grid");
+  function showRooms(id, animate) {
+    const h = HOMES.find((x) => x.id === id);
+    $$("button", roomTabs).forEach((b) => { const on = b.dataset.roomTab === id; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); });
+    roomGrid.innerHTML = h.roomKeys.map((k, j) => `
+      <button class="room-card" data-gallery="${h.id}" data-start="${j}" data-cursor="Zoom" aria-label="Open room ${j + 1} at ${h.street}">
+        <img src="${img(h.id, k)}" alt="Room ${j + 1} at ${h.street}, Summerstrand" loading="lazy">
+        <span>🛏 Room photo ${j + 1}</span>
+      </button>`).join("") + `
+      <div class="room-cta">
+        <small>${h.name} · ${h.street}</small>
+        <b>Like this room?</b>
+        <p>${rand(C.prices.weekly)} /week or ${rand(C.prices.monthly)} /month. Call to check what's free.</p>
+        <a href="${tel}" class="btn btn-sun js-call"><span class="ring-ico">📞</span> Call to book</a>
+        <button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${h.photos.length} photos</button>
+      </div>`;
+    roomGrid.dataset.count = h.rooms;
+    if (animate && hasGsap) {
+      G.from(roomGrid.children, { y: 40, opacity: 0, scale: 0.96, duration: 0.6, ease: "back.out(1.6)", stagger: 0.05, clearProps: "all" });
+      ST.refresh();
+    }
+  }
+  roomTabs.innerHTML = HOMES.map((h) => `<button role="tab" data-room-tab="${h.id}" data-cursor="Show">${h.street}<small>${h.rooms} room photo${h.rooms > 1 ? "s" : ""}</small></button>`).join("");
+  roomTabs.addEventListener("click", (e) => { const b = e.target.closest("[data-room-tab]"); if (b) showRooms(b.dataset.roomTab, true); });
+  document.addEventListener("click", (e) => { const j = e.target.closest("[data-room-jump]"); if (j) showRooms(j.dataset.roomJump, true); }, true);
+  showRooms("admiralty-31", false);
+
   $("#foot-homes").innerHTML = HOMES.map((h) => `<li><a href="#scene-${h.id}">${h.street}</a></li>`).join("");
 
   /* ---------- mosaic ---------- */
   const all = [];
-  for (let n = 1; n <= PHOTOS; n++) HOMES.forEach((h) => all.push([h.id, n]));
+  const longest = Math.max(...HOMES.map((h) => h.photos.length));
+  for (let n = 0; n < longest; n++) HOMES.forEach((h) => { if (h.photos[n] !== undefined) all.push([h.id, h.photos[n], n]); });
   const cols = [[], [], [], []];
   all.forEach((p, i) => cols[i % 4].push(p));
-  $("#mosaic").innerHTML = cols.map((col) => `<div class="mosaic-col">${col.slice(0, 10).map(([id, n]) =>
-    `<button data-gallery="${id}" data-start="${n - 1}" data-cursor="View" aria-label="Open photo"><img src="${img(id, n, 1)}" alt="" loading="lazy"></button>`).join("")}</div>`).join("");
+  $("#mosaic").innerHTML = cols.map((col) => `<div class="mosaic-col">${col.slice(0, 10).map(([id, key, n]) =>
+    `<button data-gallery="${id}" data-start="${n}" data-cursor="View" aria-label="Open photo"><img src="${img(id, key, 1)}" alt="" loading="lazy"></button>`).join("")}</div>`).join("");
 
   /* ---------- statement words ---------- */
   const st = $("#statement");
@@ -179,7 +219,7 @@
     s.bg = slideshow($("[data-scene-bg]", el), h.bg.map((n) => img(h.id, n)), 6000);
     const fs = $("[data-frame-slides]", el);
     if (fs) {
-      s.frameShow = slideshow(fs, h.slides.map((n) => img(h.id, n)), 3400, () => {
+      s.frameShow = slideshow(fs, [...h.roomKeys, ...h.slides].map((n) => img(h.id, n)), 3400, () => {
         s.bar.style.transition = "none";
         s.bar.style.width = "0";
         requestAnimationFrame(() => requestAnimationFrame(() => { s.bar.style.transition = "width 3.4s linear"; s.bar.style.width = "100%"; }));
@@ -393,8 +433,10 @@
     current = HOMES.find((h) => h.id === id);
     $("#m-area").textContent = `${current.street}, Summerstrand`;
     $("#m-title").textContent = current.name;
-    $("#m-gallery").innerHTML = Array.from({ length: PHOTOS }, (_, i) =>
-      `<button data-lb-open="${i}"><img src="${img(current.id, i + 1, 1)}" alt="${current.name} photo ${i + 1}" loading="lazy"></button>`).join("");
+    const tile = (k) => `<button data-lb-open="${photoIndex(current, k)}"><img src="${img(current.id, k, 1)}" alt="${current.name} ${typeof k === "string" ? "room" : "photo"}" loading="lazy"></button>`;
+    $("#m-gallery").innerHTML =
+      `<h4 class="m-sec">🛏 The rooms <small>${current.rooms} photos</small></h4><div class="m-grid">${current.roomKeys.map(tile).join("")}</div>` +
+      `<h4 class="m-sec">🏠 The house <small>${PHOTOS} photos</small></h4><div class="m-grid">${current.photos.filter((k) => typeof k === "number").map(tile).join("")}</div>`;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     lockScroll(true);
@@ -406,10 +448,13 @@
   const lb = $("#lightbox");
   let lbIndex = 0;
   function showLb(i) {
-    lbIndex = (i + PHOTOS) % PHOTOS;
-    $("#lb-img").src = img(current.id, lbIndex + 1);
-    $("#lb-img").alt = `${current.name} photo ${lbIndex + 1}`;
-    $("#lb-count").textContent = `${current.name} · ${lbIndex + 1} / ${PHOTOS}`;
+    const total = current.photos.length;
+    lbIndex = (i + total) % total;
+    const key = current.photos[lbIndex];
+    const isRoom = typeof key === "string";
+    $("#lb-img").src = img(current.id, key);
+    $("#lb-img").alt = `${current.name} ${isRoom ? "room" : "photo"} ${lbIndex + 1}`;
+    $("#lb-count").textContent = `${current.name} · ${isRoom ? `🛏 Room photo ${lbIndex + 1} of ${current.rooms}` : `${lbIndex + 1} / ${total}`}`;
   }
   function openLb(id, i) {
     current = HOMES.find((h) => h.id === id);
