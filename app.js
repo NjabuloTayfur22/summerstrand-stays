@@ -21,6 +21,7 @@
       slides: [1, 2, 3, 5, 7, 9, 11, 4],
       cover: 1,
       rooms: 2,
+      video: true,
     },
     {
       id: "admiralty-31",
@@ -54,6 +55,7 @@
       cover: 2,
       slides: [2, 3, 11, 12, 13, 4, 8],
       rooms: 5,
+      video: true,
     },
   ];
   const HERO = [["admiralty-23", 1], ["tilbury-4", 1], ["bradley-6", 1], ["admiralty-31", 13]];
@@ -132,7 +134,8 @@
   /* ---------- scenes ---------- */
   $("#scenes").innerHTML = HOMES.map((h, i) => {
     const media = `<div class="bg-slides" data-frame-slides></div>`;
-    const tours = `<button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${h.photos.length} photos</button>`;
+    const tours = `<button class="btn btn-glass" data-gallery="${h.id}" data-cursor="All">📷 All ${h.photos.length} photos</button>` +
+      (h.video ? `<a class="btn btn-glass" href="#video-${h.id}" data-cursor="Play">▶ Video tour</a>` : "");
     return `
     <section class="scene" id="scene-${h.id}">
       <div class="scene-sticky">
@@ -169,6 +172,36 @@
       </div>
     </section>`;
   }).join("");
+  /* ---------- video tours ---------- */
+  const vids = HOMES.filter((h) => h.video);
+  $("#video-grid").innerHTML = vids.map((h) => `
+    <article class="vcard" id="video-${h.id}">
+      <div class="vcard-media">
+        <video src="video/${h.id}.mp4" poster="video/${h.id}.jpg" muted loop playsinline preload="none" aria-label="Video tour of ${h.street}"></video>
+        <button class="vcard-full" data-full aria-label="Watch full screen" data-cursor="Watch">⛶</button>
+        <span class="vcard-live"><i></i>Video tour</span>
+      </div>
+      <div class="vcard-body">
+        <div><h3>${h.name}</h3><small>📍 ${h.street}, Summerstrand</small></div>
+        <div class="vcard-actions">
+          <a href="${tel}" class="btn btn-sun js-call"><span class="ring-ico">📞</span> Call to book</a>
+          <a href="#scene-${h.id}" class="btn btn-glass">See the house</a>
+        </div>
+      </div>
+    </article>`).join("");
+  const vObs = new IntersectionObserver((es) => es.forEach((e) => {
+    const v = e.target;
+    if (e.isIntersecting) { v.preload = "auto"; if (!reduced) v.play().catch(() => {}); } else v.pause();
+  }), { threshold: 0.35 });
+  $$("#video-grid video").forEach((v) => vObs.observe(v));
+  $("#video-grid").addEventListener("click", (e) => {
+    const card = e.target.closest(".vcard-media");
+    if (!card) return;
+    const v = $("video", card);
+    v.play().catch(() => {});
+    (v.requestFullscreen || v.webkitEnterFullscreen || v.webkitRequestFullscreen || (() => {})).call(v);
+  });
+
   /* ---------- rooms section ---------- */
   const roomTabs = $("#room-tabs"), roomGrid = $("#room-grid");
   function showRooms(id, animate) {
