@@ -193,7 +193,15 @@
     const v = e.target;
     if (e.isIntersecting) { v.preload = "auto"; if (!reduced) v.play().catch(() => {}); } else v.pause();
   }), { threshold: 0.35 });
-  $$("#video-grid video").forEach((v) => vObs.observe(v));
+  $$("#video-grid video, #reel-video").forEach((v) => vObs.observe(v));
+  const reelV = $("#reel-video");
+  const goFull = (v) => { v.play().catch(() => {}); (v.requestFullscreen || v.webkitEnterFullscreen || v.webkitRequestFullscreen || (() => {})).call(v); };
+  $(".reel-phone").addEventListener("click", () => goFull(reelV));
+  $("#reel-share").addEventListener("click", async () => {
+    const data = { title: "Summerstrand Stays", text: "Summer rooms in Summerstrand from R1,000 a week. Watch the tour:", url: location.origin + location.pathname + "#reel" };
+    if (navigator.share) { try { await navigator.share(data); } catch (e) {} return; }
+    window.open(waUrl(`${data.text} ${data.url}`), "_blank", "noopener");
+  });
   $("#video-grid").addEventListener("click", (e) => {
     const card = e.target.closest(".vcard-media");
     if (!card) return;
